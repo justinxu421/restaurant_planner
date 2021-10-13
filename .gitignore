@@ -1,1 +1,5 @@
 /secret_keys/*
+yelp_dataset/
+.*
+__pycache__
+data/*

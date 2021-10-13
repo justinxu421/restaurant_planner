@@ -1,1 +1,7 @@
 requests==2.18.4
+pandas
+numpy
+geopy
+flask
+flask-sqlalchemy
+mysql-python
