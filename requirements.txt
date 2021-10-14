@@ -4,4 +4,3 @@ numpy
 geopy
 flask
 flask-sqlalchemy
-mysql-python
