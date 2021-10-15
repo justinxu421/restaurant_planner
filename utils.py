@@ -38,12 +38,12 @@ def process_df_dicts(df):
 
 
 def process_df_all(df):
-    """Process all"""
+    """Process all dict and list columns in dataframe"""
     return process_df_dicts(process_df_categories(df))
 
 
-def impute_businesses_with_location_distance(df_business, center_name):
-    """Filter a dataframe so that businesses within a certain radius (in miles) of center are included"""
+def insert_distance_to_location_column(df_business, center_name):
+    """Insert column to dataframe with the distance (in miles) to center"""
     if center_name in COORD_DICT:
         center_coords = COORD_DICT[center_name]
         distance_fun = partial(get_distance_in_miles_to_point, center=center_coords)
@@ -53,6 +53,24 @@ def impute_businesses_with_location_distance(df_business, center_name):
     else:
         print(f"{center_name} is not found, returning original dataframe")
         return df_business
+
+
+def insert_text_length_column(df):
+    """Insert a column to dataframe with length of text"""
+    print("writing text length column")
+    df["text_length"] = df.text.apply(lambda x: x.count(" "))
+    return df
+
+
+def insert_sentiment_column(df):
+    """insert a column to dataframe with polarity and subjectivity sentiment"""
+    from textblob import TextBlob
+
+    print("writing sentiment columns")
+    df["polarity"], df["subjectivity"] = zip(
+        *df.text.apply(lambda x: TextBlob(x).sentiment)
+    )
+    return df
 
 
 def filter_df_with_categories(df, category_filter):
@@ -73,7 +91,10 @@ def get_join_query(table, center_name, radius):
                 attributes,
                 categories,
                 hours,
-                text
+                text,
+                text_length,
+                polarity,
+                subjectivity
             FROM businesses as b
             LEFT JOIN {table} 
                 ON b.business_id = {table}.business_id
@@ -90,7 +111,7 @@ def load_close_tips(center_name, radius):
         query,
         con=engine,
     )
-    return df_close_tips
+    return process_df_all(df_close_tips)
 
 
 def load_close_reviews(center_name, radius):
@@ -102,7 +123,7 @@ def load_close_reviews(center_name, radius):
         query,
         con=engine,
     )
-    return df_close_reviews
+    return process_df_all(df_close_reviews)
 
 
 def load_close_businesses(center_name, radius):
@@ -114,4 +135,4 @@ def load_close_businesses(center_name, radius):
         query,
         con=engine,
     )
-    return df_close
+    return process_df_all(df_close)

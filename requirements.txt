@@ -4,3 +4,5 @@ numpy
 geopy
 flask
 flask-sqlalchemy
+textblob
+tqdm
