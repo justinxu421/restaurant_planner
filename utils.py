@@ -78,6 +78,15 @@ def filter_df_with_categories(df, category_filter):
     return df[df.categories.apply(lambda x: category_filter in x)]
 
 
+def make_index(db_name, table_name, index_column):
+    import sqlite3
+
+    db = sqlite3.connect(db_name)
+    cursor = db.cursor()
+    sql = f"CREATE INDEX index_{table_name} ON {table_name} ({index_column});"
+    cursor.execute(sql)
+
+
 def get_join_query(table, center_name, radius):
     return f"""
             SELECT 
@@ -111,6 +120,7 @@ def load_close_tips(center_name, radius):
         query,
         con=engine,
     )
+    make_index("yelp.db", "tips", "business_id")
     return process_df_all(df_close_tips)
 
 
@@ -123,6 +133,7 @@ def load_close_reviews(center_name, radius):
         query,
         con=engine,
     )
+    make_index("yelp.db", "reviews", "business_id")
     return process_df_all(df_close_reviews)
 
 
@@ -135,4 +146,5 @@ def load_close_businesses(center_name, radius):
         query,
         con=engine,
     )
+    make_index("yelp.db", "businesses", "business_id")
     return process_df_all(df_close)
