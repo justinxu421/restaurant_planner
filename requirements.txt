@@ -8,3 +8,6 @@ textblob
 tqdm
 transformers
 torch
+ipywidgets
+spacy
+wordfreq
