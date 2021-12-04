@@ -6,8 +6,6 @@ flask
 flask-sqlalchemy
 textblob
 tqdm
-transformers
-torch
 ipywidgets
 spacy
 wordfreq

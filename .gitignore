@@ -1,6 +1,8 @@
 /secret_keys/*
 __pycache__
 yelp_dataset/
+yelp_photos/
+*.tar
 data/
 .*
 *.db
