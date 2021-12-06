@@ -6,7 +6,6 @@ from sqlalchemy import create_engine
 
 from constants import COORD_DICT
 
-
 def get_distance_in_miles_to_point(row, center):
     """Helper function that given a dataframe row, calculates the distance
        Should likely be used within an apply function on a pandas dataframe
