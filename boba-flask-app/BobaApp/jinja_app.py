@@ -1,13 +1,11 @@
+"""
+app build to render from jinja template and flask
+"""
+
 from flask import Flask, render_template
+
 from boba_business import BobaBusiness
-
 app = Flask(__name__)
-
-
-@app.route("/")
-def home():
-    return "<p>Home</p>"
-
 
 @app.route("/business/<name>")
 def get_business(name):
@@ -22,4 +20,4 @@ def get_business(name):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

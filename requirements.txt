@@ -9,3 +9,4 @@ tqdm
 ipywidgets
 spacy
 wordfreq
+python-dotenv

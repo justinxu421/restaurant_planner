@@ -17,7 +17,7 @@ class BobaBusiness:
 
     def get_business_df(self, name):
         """get the first business with matching name"""
-        df = pd.read_csv("../data/boston_boba_reviews.csv")
+        df = pd.read_csv("data/boston_boba_reviews.csv")
         df_filtered = df[df["name"] == name]
         assert len(df_filtered) > 0, "No boba business found with name"
         bid = df_filtered.iloc[0]["business_id"]
