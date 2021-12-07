@@ -20,18 +20,24 @@ def get_business(name):
     drink_items, drink_reviews = bb.get_drink_items()
     drinks = [
         {
-            "drink_name": drink,
+            "drink_name": drink_name,
+            "count": count,
             "reviews": [
                 {
                     "stars": review["stars"],
                     "text": review["text"],
                 }
-                for review in drink_reviews[drink]
+                for review in drink_reviews[drink_name]
             ],
         }
-        for drink, _ in drink_items[:10]
+        for drink_name, count in drink_items[:10]
     ]
-    print(drinks[0])
     return {
-        "drinks": drinks,
+        "top_drinks": drinks,
+        "business_name": bb.name,
+        "business_id": bb.bid,
+        "address": bb.address,
+        "city": bb.city,
+        "state": bb.state,
+        "overall_stars": bb.overall_stars,
     }
