@@ -1,36 +1,48 @@
+// @ts-nocheck
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { BobaBusiness } from "./BobaBusiness";
+import { BobaBusiness } from "./pages/BobaBusiness";
+import { Home } from "./pages/Home";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Layout } from "components/Layout";
+
+const theme = createTheme({
+  // palette: {
+  //   primary: {
+  //     main: "#fefefe",
+  //   },
+  // },
+  typography: {
+    fontFamily: 'Quicksand',
+    fontWeightLight: 400,
+    fontWeightRegular: 500,
+    fontWeightMedium: 600,
+  }
+});
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route
-          exact
-          path="/business/:businessName"
-          element={<BobaBusiness />}
-        />
-        <Route exact path="/about" element={<About />} />
-        <Route exact path="/users" element={<Users />} />
-      </Routes>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route
+              exact
+              path="/business/:businessName"
+              element={<BobaBusiness />}
+            />
+            <Route exact path="/about" element={<About />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </ThemeProvider>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
 }
 
 function About() {
   return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 
 export default App;
