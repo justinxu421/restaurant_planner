@@ -2,11 +2,13 @@
 app 
 """
 
+from typing import List
+
 from flask import Flask
 from flask_migrate import Migrate
+
 from boba_business import BobaBusiness
-from models import db, BostonBobaBusiness, TopDrink, DrinkReviews
-from typing import List
+from models import Business, DrinkReviews, TopDrink, db
 
 db_name = "boba_data.db"
 app = Flask(__name__)
@@ -18,8 +20,12 @@ db.init_app(app)
 migrate.init_app(app, db)
 
 
-def force_load(name):
+def force_load_top_drinks(name: str, num_drinks=10):
     bb = BobaBusiness(name, db_name)
+    business_item = Business(
+        bb.bid, bb.name, bb.address, bb.city, bb.state, bb.overall_star, bb.review_count
+    )
+    db.session.add(business_item)
     top_drinks = bb.get_drink_items()
 
     # drop existing reviews and drinks to prevent double writing
@@ -48,7 +54,7 @@ def force_load(name):
         "city": bb.city,
         "state": bb.state,
         "overall_stars": bb.overall_star,
-        "top_drinks": top_drinks[:10],
+        "top_drinks": top_drinks[:num_drinks],
     }
 
 
@@ -63,10 +69,9 @@ def serialize_reviews(reviews):
     ]
 
 
-def get_payload(business: BostonBobaBusiness, drinks: List[DrinkReviews]):
-    print(drinks[:10])
+def get_drink_payload(business: Business, drinks: List[DrinkReviews], num_drinks=10):
     top_drinks = []
-    for drink in drinks[:10]:
+    for drink in drinks[:num_drinks]:
         reviews = DrinkReviews.query.filter_by(
             business_id=business.business_id, drink_name=drink.drink_name
         ).all()
@@ -89,9 +94,9 @@ def get_payload(business: BostonBobaBusiness, drinks: List[DrinkReviews]):
 
 
 @app.route("/business/<name>")
-def get_top_drinks(name):
+def get_top_drinks(name: str):
     # if it exists in the database, read and return
-    business = BostonBobaBusiness.query.filter_by(name=name).first()
+    business = Business.query.filter_by(name=name).first()
     if business:
         # check if drinks are saved
         drinks = (
@@ -101,13 +106,18 @@ def get_top_drinks(name):
         )
         print(drinks)
         if drinks:
-            return get_payload(business, drinks)
+            return get_drink_payload(business, drinks)
 
     # otherwise we need to call our NLP API and then save our info
-    return force_load(name)
+    return force_load_top_drinks(name)
 
 
 @app.route("/force/business/<name>")
-def force_get_top_drinks(name):
+def force_get_top_drinks(name: str):
     # force call the NLP API to return info
-    return force_load(name)
+    return force_load_top_drinks(name)
+
+
+@app.route("/")
+def hello():
+    return "<h1> Hello World </h1>"

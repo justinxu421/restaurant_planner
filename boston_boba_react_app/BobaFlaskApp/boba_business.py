@@ -49,6 +49,7 @@ class BobaBusiness:
         self.city = self.df_business.iloc[0]["city"]
         self.state = self.df_business.iloc[0]["state"]
         self.address = self.df_business.iloc[0]["address"]
+        self.review_count = self.df_business.iloc[0]["address"]
 
     def get_nouns(self, to_exclude: set):
         """

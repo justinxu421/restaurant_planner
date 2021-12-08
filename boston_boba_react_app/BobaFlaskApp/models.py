@@ -2,8 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class BostonBobaBusiness(db.Model):
-    __tablename__ = "boston_boba_businesses"
+class Business(db.Model):
+    __tablename__ = "businesses"
     business_id = db.Column(db.String, primary_key=True, index=True)
     name = db.Column(db.String)
     address = db.Column(db.String)
