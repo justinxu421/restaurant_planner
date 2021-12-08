@@ -1,19 +1,22 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { BobaCard } from "../components/BobaBusinessCard";
 import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
 
 export function HomePage() {
-  const [bobaBusiness, setBobaBusiness] = useState("");
-  console.log(bobaBusiness);
+  // const [bobaBusiness, setBobaBusiness] = useState("");
 
-  const businesses = ["Gong Cha", "Kung Fu Tea", "Boba Me", "OneZo"];
+  const businesses = [
+    "Gong Cha",
+    "Kung Fu Tea",
+    "Boba Me",
+    "OneZo",
+    "Chatime",
+    "Tsaocaa",
+    "Happy Lemon Boston",
+    "Chatime Quincy",
+  ];
+
   return (
     <div>
       <Container>
@@ -27,7 +30,7 @@ export function HomePage() {
         </Typography>
         <form noValidate autoComplete="off">
           <TextField
-            onChange={(e) => setBobaBusiness(e.target.value)}
+            // onChange={(e) => setBobaBusiness(e.target.value)}
             label="Boba Business Name"
             variant="outlined"
             color="primary"

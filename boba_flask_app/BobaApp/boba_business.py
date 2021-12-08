@@ -10,6 +10,7 @@ def process_text(text):
     return (
         text.replace("\n", "")
         .replace('"', "")
+        .replace(',', "")
         .strip()
         .lower()
         .removeprefix("the ")
