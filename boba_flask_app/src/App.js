@@ -3,16 +3,12 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { BobaBusiness } from "./pages/BobaBusiness";
-import { Home } from "./pages/HomePage";
+import { HomePage } from "./pages/HomePage";
+import { About } from 'pages/About';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Layout } from "components/Layout";
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#fefefe",
-    },
-  },
   typography: {
     fontFamily: 'Quicksand',
     fontWeightLight: 400,
@@ -27,7 +23,7 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route exact path="/" element={<HomePage />} />
             <Route
               exact
               path="/business/:businessName"
@@ -39,10 +35,6 @@ function App() {
       </Router>
     </ThemeProvider>
   );
-}
-
-function About() {
-  return <h2>About</h2>;
 }
 
 export default App;

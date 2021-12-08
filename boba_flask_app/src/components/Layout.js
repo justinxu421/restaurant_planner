@@ -1,5 +1,5 @@
 import HomeIcon from "@mui/icons-material/Home";
-import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
+import InfoIcon from '@mui/icons-material/Info';
 import {
   Drawer,
   List,
@@ -13,23 +13,31 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 200;
-const useStyles = makeStyles({
-  page: {
-    background: "#f9f9f9",
-    width: "100%",
-  },
-  drawer: {
-    width: drawerWidth,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  root: {
-    display: "flex",
-  },
-  active: {
-    backgroundColor: "#f9f9f9",
-  },
+const useStyles = makeStyles((theme) => {
+  return {
+    page: {
+      background: "#f9f9f9",
+      width: "100%",
+      // @ts-ignore
+      padding: theme.spacing(3),
+    },
+    drawer: {
+      width: drawerWidth,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    root: {
+      display: "flex",
+    },
+    active: {
+      backgroundColor: "#f4f4f4",
+    },
+    title: {
+      // @ts-ignore
+      padding: theme.spacing(2),
+    },
+  };
 });
 
 export const Layout = ({ children }) => {
@@ -41,18 +49,13 @@ export const Layout = ({ children }) => {
   const menuItems = [
     {
       text: "Home",
-      icon: <HomeIcon color="secondary" />,
+      icon: <HomeIcon color="primary" />,
       path: "/",
     },
     {
-      text: "Gong Cha",
-      icon: <LocalDrinkIcon color="secondary" />,
-      path: "/business/Gong%20Cha",
-    },
-    {
-      text: "Kung Fu Tea",
-      icon: <LocalDrinkIcon color="secondary" />,
-      path: "/business/Kung%20Fu%20Tea",
+      text: "About",
+      icon: <InfoIcon color="primary" />,
+      path: "/about",
     },
   ];
   return (
@@ -65,7 +68,7 @@ export const Layout = ({ children }) => {
         classes={{ paper: classes.drawerPaper }}
       >
         <div>
-          <Typography variant="h5">Boston Boba</Typography>
+          <Typography variant="h5" className={classes.title}>Boston Boba</Typography>
         </div>
 
         {/* list / links */}

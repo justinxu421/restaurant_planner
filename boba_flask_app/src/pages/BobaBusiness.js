@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
-import { DrinkAccordion } from "./DrinkAccordions";
+import { DrinkAccordion } from "../components/DrinkAccordions";
 import { useParams } from "react-router-dom";
 import { Container } from "@mui/material";
 

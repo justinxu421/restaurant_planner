@@ -9,7 +9,7 @@ import {
 import { BobaCard } from "../components/BobaBusinessCard";
 import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
 
-export function Home() {
+export function HomePage() {
   const [bobaBusiness, setBobaBusiness] = useState("");
   console.log(bobaBusiness);
 

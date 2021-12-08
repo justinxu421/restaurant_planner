@@ -9,6 +9,7 @@ from constants import NOUNS_TO_EXCLUDE
 def process_text(text):
     return (
         text.replace("\n", "")
+        .replace('"', "")
         .strip()
         .lower()
         .removeprefix("the ")
