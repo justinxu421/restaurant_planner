@@ -4,6 +4,7 @@ import spacy
 import pandas as pd
 import os
 from constants import NOUNS_TO_EXCLUDE
+from sqlalchemy import create_engine
 
 
 def process_text(text):
@@ -26,15 +27,16 @@ def process_text(text):
 
 
 class BobaBusiness:
-    def __init__(self, name):
+    def __init__(self, name, db_name):
         self.nlp = spacy.load("en_core_web_sm")
         self.get_business_df(name)
         self.get_nouns(NOUNS_TO_EXCLUDE)
+        self.db = "sqlite:///{db_name}.db"
 
     def get_business_df(self, name):
         """get the first business with matching name"""
         self.name = name
-        # TODO: load from db, for now load from csv
+        ## TODO: read from db, get rid of csv
         package_dir = os.path.dirname(os.path.abspath(__file__))
         csv_file = os.path.join(package_dir, "data/boston_boba_reviews.csv")
         df = pd.read_csv(csv_file)

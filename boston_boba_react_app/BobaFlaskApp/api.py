@@ -3,20 +3,23 @@ app
 """
 
 from flask import Flask
+from flask_migrate import Migrate
 from boba_business import BobaBusiness
 from models import db, BostonBobaBusiness, TopDrink, DrinkReviews
 from typing import List
 
-db_name = "yelp.db"
-
+db_name = "boba_data.db"
 app = Flask(__name__)
+migrate = Migrate()
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + db_name
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 db.init_app(app)
+migrate.init_app(app, db)
 
 
 def force_load(name):
-    bb = BobaBusiness(name)
+    bb = BobaBusiness(name, db_name)
     top_drinks = bb.get_drink_items()
 
     # drop existing reviews and drinks to prevent double writing
@@ -105,6 +108,6 @@ def get_top_drinks(name):
 
 
 @app.route("/force/business/<name>")
-def drop_and_load_drinks(name):
+def force_get_top_drinks(name):
     # force call the NLP API to return info
     return force_load(name)

@@ -4,7 +4,7 @@ db = SQLAlchemy()
 
 class BostonBobaBusiness(db.Model):
     __tablename__ = "boston_boba_businesses"
-    business_id = db.Column(db.String, primary_key=True)
+    business_id = db.Column(db.String, primary_key=True, index=True)
     name = db.Column(db.String)
     address = db.Column(db.String)
     city = db.Column(db.String)
@@ -33,7 +33,7 @@ class BostonBobaBusiness(db.Model):
 
 class TopDrink(db.Model):
     __tablename__ = "top_drinks"
-    business_id = db.Column(db.String, primary_key=True)
+    business_id = db.Column(db.String, primary_key=True, index=True)
     drink_name = db.Column(db.String, primary_key=True)
     score = db.Column(db.Float)
 
@@ -50,7 +50,7 @@ class TopDrink(db.Model):
 
 class DrinkReviews(db.Model):
     __tablename__ = "drink_reviews"
-    business_id = db.Column(db.String, primary_key=True)
+    business_id = db.Column(db.String, primary_key=True, index=True)
     drink_name = db.Column(db.String, primary_key=True)
     date = db.Column(db.String)
     text = db.Column(db.String, primary_key=True)
