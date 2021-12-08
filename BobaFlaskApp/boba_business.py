@@ -39,7 +39,7 @@ class BobaBusiness:
         """get the first business with matching name"""
         self.name = name
         # Read from the yelp db to get the boba dataframe
-        engine = create_engine("sqlite:///../../yelp.db", echo=False)
+        engine = create_engine("sqlite:///../yelp.db", echo=False)
         df_filtered = pd.read_sql(
             get_boba_query(name),
             con=engine,
@@ -82,23 +82,6 @@ class BobaBusiness:
             score = count / word_freq if word_freq != 0 else count
             self.weighted_noun_scores[noun] = score
 
-    def serialize(self, items, reviews):
-        return [
-            {
-                "drink_name": name,
-                "score": score,
-                "reviews": [
-                    {
-                        "stars": review["stars"],
-                        "text": review["text"],
-                        "date": review["date"],
-                    }
-                    for review in reviews[name]
-                ],
-            }
-            for name, score in items
-        ]
-
     def get_keyword_items(self, keywords):
         """
         get the noun chunks with corresponding noun roots of keywords and the dataframe of their reviews
@@ -113,8 +96,26 @@ class BobaBusiness:
                 self.df_business.apply(lambda x: item in process_text(x.text), 1),
                 ['stars', 'text', 'date']
             ]
-            reviews_dict[item] = df.to_dict("records")
+            reviews_dict[item] = df
         return items.most_common(), reviews_dict
+
+    def serialize(self, items, reviews):
+        return [
+            {
+                "drink_name": name,
+                "score": score,
+                "reviews": [
+                    {
+                        "stars": review["stars"],
+                        "text": review["text"],
+                        "date": review["date"],
+                    }
+                    for (_, review) in reviews[name].iterrows()
+                ],
+            }
+            for name, score in items
+        ]
+
 
     def get_drink_items(self):
         drink_items, drink_reviews = self.get_keyword_items(["tea", "teas", "slush"])

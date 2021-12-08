@@ -4,5 +4,9 @@ yelp_dataset/
 yelp_photos/
 *.tar
 data/
-.*
+.python-version
+.DS_Store
+.ipynb_checkpoints/
+.venv/
+.vscode/
 *.db
