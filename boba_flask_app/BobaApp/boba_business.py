@@ -42,7 +42,7 @@ class BobaBusiness:
         assert len(df_filtered) > 0, "No boba business found with name"
         self.bid = df_filtered.iloc[0]["business_id"]
         self.df_business = df[df["business_id"] == self.bid]
-        self.overall_stars = self.df_business.iloc[0]["overall_star"]
+        self.overall_star = self.df_business.iloc[0]["overall_star"]
         self.city = self.df_business.iloc[0]["city"]
         self.state = self.df_business.iloc[0]["state"]
         self.address = self.df_business.iloc[0]["address"]
@@ -75,6 +75,23 @@ class BobaBusiness:
             score = count / word_freq if word_freq != 0 else count
             self.weighted_noun_scores[noun] = score
 
+    def serialize(self, items, reviews):
+        return [
+            {
+                "drink_name": name,
+                "score": score,
+                "reviews": [
+                    {
+                        "stars": review["stars"],
+                        "text": review["text"],
+                        "date": review["date"],
+                    }
+                    for review in reviews[name]
+                ],
+            }
+            for name, score in items
+        ]
+
     def get_keyword_items(self, keywords):
         """
         get the noun chunks with corresponding noun roots of keywords and the dataframe of their reviews
@@ -85,18 +102,18 @@ class BobaBusiness:
 
         reviews_dict = {}
         for item in items:
-            df = self.df_business[
-                self.df_business.apply(lambda x: item in process_text(x.text), 1)
+            df = self.df_business.loc[
+                self.df_business.apply(lambda x: item in process_text(x.text), 1),
+                ['stars', 'text', 'date']
             ]
             reviews_dict[item] = df.to_dict("records")
         return items.most_common(), reviews_dict
 
     def get_drink_items(self):
         drink_items, drink_reviews = self.get_keyword_items(["tea", "teas", "slush"])
-        return drink_items, drink_reviews
+        return self.serialize(drink_items, drink_reviews)
 
     def get_topping_items(self):
-        topping_items, topping_reviews = self.get_keyword_items(
+        return self.get_keyword_items(
             ["boba", "jelly", "taro"]
         )
-        return topping_items, topping_reviews

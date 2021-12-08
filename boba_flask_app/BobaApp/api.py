@@ -16,21 +16,18 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 db = SQLAlchemy(app)
 
 
-class TopDrink(db.Model):
-    __tablename__ = "top_drinks"
-    business_id = db.Column(db.Integer, primary_key=True)
-    drink_name = db.Column(db.String, primary_key=True)
+class BostonBobaBusiness(db.Model):
+    __tablename__ = "boston_boba_businesses"
+    business_id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String)
     address = db.Column(db.String)
     city = db.Column(db.String)
     state = db.Column(db.String)
     overall_star = db.Column(db.Float)
     review_count = db.Column(db.Integer)
-    drink_count = db.Column(db.Integer)
 
     def __init__(
         self,
-        drink_name,
         business_id,
         name,
         address,
@@ -38,60 +35,108 @@ class TopDrink(db.Model):
         state,
         overall_star,
         review_count,
-        drink_count,
     ):
-        business_id = db.Column(db.Integer, primary_key=True)
-        drink_name = db.Column(db.String, primary_key=True)
-        name = db.Column(db.String)
-        address = db.Column(db.String)
-        city = db.Column(db.String)
-        state = db.Column(db.String)
-        overall_star = db.Column(db.Float)
-        review_count = db.Column(db.Integer)
-        drink_count = db.Column(db.Integer)
+        self.business_id = business_id
+        self.name = name
+        self.address = address
+        self.city = city
+        self.state = state
+        self.overall_star = overall_star
+        self.review_count = review_count
+
+
+class TopDrink(db.Model):
+    __tablename__ = "top_drinks"
+    business_id = db.Column(db.String, primary_key=True)
+    drink_name = db.Column(db.String, primary_key=True)
+    score = db.Column(db.Float)
+
+    def __init__(
+        self,
+        business_id,
+        drink_name,
+        score,
+    ):
+        self.business_id = business_id
+        self.drink_name = drink_name
+        self.score = score
+
+
+class DrinkReviews(db.Model):
+    __tablename__ = "drink_reviews"
+    business_id = db.Column(db.String, primary_key=True)
+    drink_name = db.Column(db.String, primary_key=True)
+    date = db.Column(db.String)
+    text = db.Column(db.String, primary_key=True)
+    stars = db.Column(db.Integer)
+
+    def __init__(
+        self,
+        business_id,
+        drink_name,
+        date,
+        text,
+        stars,
+    ):
+        self.business_id = business_id
+        self.drink_name = drink_name
+        self.date = date
+        self.text = text
+        self.stars = stars
 
 
 @app.route("/db/<name>")
 def index(name):
-    try:
-        drinks = TopDrink.query.filter_by(name=name).all()
-        return {drink.drink_name: drink.drink_count for drink in drinks}
-    except Exception as e:
-        # e holds description of the error
-        error_text = "<p>The error:<br>" + str(e) + "</p>"
-        hed = "<h1>Something is broken.</h1>"
-        return hed + error_text
-
-
-@app.route("/time")
-def get_current_time():
-    return {"time": time.time()}
+    business = BostonBobaBusiness.query.filter_by(name=name).first()
+    if business:
+        drinks = TopDrink.query.filter_by(business_id=business.business_id).all()
+        if len(drinks) > 0:
+            return {drink.drink_name: (drink.score, business.name) for drink in drinks}
 
 
 @app.route("/business/<name>")
-def get_business(name):
+def get_top_drinks(name):
+
+    # if it exists in the database, read and return
+    business = BostonBobaBusiness.query.filter_by(name=name).first()
+    if business:
+        drinks = TopDrink.query.filter_by(business_id=business.business_id).all()
+        if drinks:
+            top_drinks = []
+            for drink in drinks[:10]:
+                reviews = DrinkReviews.query.filter_by(
+                    business_id=business.business_id, drink_name=drink.drink_name
+                ).all()
+                if reviews:
+                    drink_info = {
+                        "drink_name": drink.drink_name,
+                        "score": drink.score,
+                        "reviews": [{
+                            'stars': review.stars,
+                            'text': review.text,
+                            'date': review.date,
+                        } for review in reviews],
+                    }
+                    top_drinks.append(drink_info)
+
+            return {
+                "business_name": business.name,
+                "business_id": business.business_id,
+                "address": business.address,
+                "city": business.city,
+                "state": business.state,
+                "overall_stars": business.overall_star,
+                "top_drinks": top_drinks,
+            }
+
+    # otherwise we need to call our NLP API
     bb = BobaBusiness(name)
-    drink_items, drink_reviews = bb.get_drink_items()
-    drinks = [
-        {
-            "drink_name": drink_name,
-            "count": count,
-            "reviews": [
-                {
-                    "stars": review["stars"],
-                    "text": review["text"],
-                }
-                for review in drink_reviews[drink_name]
-            ],
-        }
-        for drink_name, count in drink_items
-    ]
     return {
-        "top_drinks": drinks,
         "business_name": bb.name,
         "business_id": bb.bid,
         "address": bb.address,
         "city": bb.city,
         "state": bb.state,
-        "overall_stars": bb.overall_stars,
+        "overall_stars": bb.overall_star,
+        "top_drinks": bb.get_drink_items()[:10],
     }
