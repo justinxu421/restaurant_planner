@@ -3,16 +3,16 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { BobaBusiness } from "./pages/BobaBusiness";
-import { Home } from "./pages/Home";
+import { Home } from "./pages/HomePage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Layout } from "components/Layout";
 
 const theme = createTheme({
-  // palette: {
-  //   primary: {
-  //     main: "#fefefe",
-  //   },
-  // },
+  palette: {
+    primary: {
+      main: "#fefefe",
+    },
+  },
   typography: {
     fontFamily: 'Quicksand',
     fontWeightLight: 400,

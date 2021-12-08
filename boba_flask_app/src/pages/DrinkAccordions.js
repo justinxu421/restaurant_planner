@@ -38,16 +38,22 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
+
 export const DrinkAccordion = ({ i, drink, expanded, setExpanded }) => {
+  // helps deal with logic of only opening one at a time
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
   return (
     <Accordion
       expanded={expanded === `panel${i}`}
       onChange={handleChange(`panel${i}`)}
     >
-      <AccordionSummary aria-controls={`panel${i}d-content`} id={`panel${i}d-header`}>
+      <AccordionSummary
+        aria-controls={`panel${i}d-content`}
+        id={`panel${i}d-header`}
+      >
         <Typography>
           <b>{drink.drink_name},</b> Count: {drink.count}
         </Typography>
