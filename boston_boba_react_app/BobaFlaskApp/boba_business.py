@@ -1,10 +1,13 @@
-from wordfreq import word_frequency
-from collections import defaultdict, Counter
-import spacy
-import pandas as pd
 import os
-from constants import NOUNS_TO_EXCLUDE
+from collections import Counter, defaultdict
+
+import pandas as pd
+import spacy
 from sqlalchemy import create_engine
+from wordfreq import word_frequency
+
+from constants import NOUNS_TO_EXCLUDE
+from scripts import get_boba_query
 
 
 def process_text(text):
@@ -27,24 +30,24 @@ def process_text(text):
 
 
 class BobaBusiness:
-    def __init__(self, name, db_name):
+    def __init__(self, name):
         self.nlp = spacy.load("en_core_web_sm")
         self.get_business_df(name)
         self.get_nouns(NOUNS_TO_EXCLUDE)
-        self.db = "sqlite:///{db_name}.db"
 
     def get_business_df(self, name):
         """get the first business with matching name"""
         self.name = name
-        ## TODO: read from db, get rid of csv
-        package_dir = os.path.dirname(os.path.abspath(__file__))
-        csv_file = os.path.join(package_dir, "data/boston_boba_reviews.csv")
-        df = pd.read_csv(csv_file)
+        # Read from the yelp db to get the boba dataframe
+        engine = create_engine("sqlite:///../../yelp.db", echo=False)
+        df_filtered = pd.read_sql(
+            get_boba_query(name),
+            con=engine,
+        )
 
-        df_filtered = df[df["name"] == name]
         assert len(df_filtered) > 0, "No boba business found with name"
         self.bid = df_filtered.iloc[0]["business_id"]
-        self.df_business = df[df["business_id"] == self.bid]
+        self.df_business = df_filtered[df_filtered["business_id"] == self.bid]
         self.overall_star = self.df_business.iloc[0]["overall_star"]
         self.city = self.df_business.iloc[0]["city"]
         self.state = self.df_business.iloc[0]["state"]

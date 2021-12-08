@@ -21,7 +21,7 @@ migrate.init_app(app, db)
 
 
 def force_load_top_drinks(name: str, num_drinks=10):
-    bb = BobaBusiness(name, db_name)
+    bb = BobaBusiness(name)
     business_item = Business(
         bb.bid, bb.name, bb.address, bb.city, bb.state, bb.overall_star, bb.review_count
     )
