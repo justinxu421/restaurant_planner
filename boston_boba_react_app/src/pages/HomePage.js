@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { BobaCard } from "../components/BobaBusinessCard";
 import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
+import Masonry from 'react-masonry-css'
+
 
 export function HomePage() {
   // const [bobaBusiness, setBobaBusiness] = useState("");
@@ -16,6 +18,12 @@ export function HomePage() {
     "Happy Lemon Boston",
     "Chatime Quincy",
   ];
+
+  const breakpoints = {
+    default: 3,
+    1100: 2, 
+    700: 1
+  }
 
   return (
     <div>
@@ -39,13 +47,17 @@ export function HomePage() {
           />
         </form>
         <br />
-        <Grid container spacing={3}>
+        <Masonry
+          breakpointCols={breakpoints}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
           {businesses.map((business, id) => (
-            <Grid item key={id} xs={12} sm={6} md={3}>
+            <div key={id}>
               <BobaCard businessName={business} />
-            </Grid>
+            </div>
           ))}
-        </Grid>
+        </Masonry>
         <br />
         <Button
           onClick={() => console.log("clicked")}

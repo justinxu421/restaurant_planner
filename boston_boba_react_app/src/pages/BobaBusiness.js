@@ -2,8 +2,16 @@ import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import { DrinkAccordion } from "../components/DrinkAccordions";
 import { useParams } from "react-router-dom";
-import { Container } from "@mui/material";
+import { Container, createTheme, ThemeProvider } from "@mui/material";
 
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Courier New",
+      fontWeightLight: 400,
+      fontWeightRegular: 500,
+      fontWeightMedium: 600,
+    },
+  });
 export const BobaBusiness = () => {
   const { businessName } = useParams();
   const [topDrinks, setTopDrinks] = useState([]);
@@ -36,13 +44,15 @@ export const BobaBusiness = () => {
         )}
         <br />
         {topDrinks.map((drink, i) => (
-          <DrinkAccordion
-            key={i}
-            i={i}
-            drink={drink}
-            expanded={expanded}
-            setExpanded={setExpanded}
-          />
+          <ThemeProvider theme={theme}>
+            <DrinkAccordion
+              key={i}
+              i={i}
+              drink={drink}
+              expanded={expanded}
+              setExpanded={setExpanded}
+            />
+          </ThemeProvider>
         ))}
       </div>
     </Container>
