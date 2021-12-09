@@ -10,7 +10,7 @@ import { Layout } from "components/Layout";
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Fuzzy Bubbles',
+    fontFamily: 'Oxygen',
     fontWeightLight: 400,
     fontWeightRegular: 500,
     fontWeightMedium: 600,

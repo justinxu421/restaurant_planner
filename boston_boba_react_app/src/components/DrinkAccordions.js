@@ -55,7 +55,7 @@ export const DrinkAccordion = ({ i, drink, expanded, setExpanded }) => {
         id={`panel${i}d-header`}
       >
         <Typography>
-          <b>{drink.drink_name},</b> Score: {drink.score}
+          <b>{drink.drink_name}</b>, Score: {drink.score}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>

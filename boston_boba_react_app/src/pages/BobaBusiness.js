@@ -4,14 +4,15 @@ import { DrinkAccordion } from "../components/DrinkAccordions";
 import { useParams } from "react-router-dom";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 
-  const theme = createTheme({
-    typography: {
-      fontFamily: "Courier New",
-      fontWeightLight: 400,
-      fontWeightRegular: 500,
-      fontWeightMedium: 600,
-    },
-  });
+const theme = createTheme({
+  typography: {
+    fontFamily: "Oxygen",
+    fontWeightLight: 400,
+    fontWeightRegular: 500,
+    fontWeightMedium: 600,
+  },
+});
+
 export const BobaBusiness = () => {
   const { businessName } = useParams();
   const [topDrinks, setTopDrinks] = useState([]);

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Menlo',
+    fontFamily: 'Oxygen',
     fontWeightLight: 400,
     fontWeightRegular: 500,
     fontWeightMedium: 600,
@@ -35,7 +35,6 @@ export const BobaCard = ({ businessName }) => {
             <Typography
               variant="body2"
               color="textSecondary"
-              fontFamily="Sandbox"
             >
               {"placeholder text"}
             </Typography>
