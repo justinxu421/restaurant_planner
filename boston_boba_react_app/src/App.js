@@ -2,7 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { BobaBusiness } from "./pages/BobaBusiness";
+import { BobaBusinessPage } from "./pages/BobaBusiness";
 import { HomePage } from "./pages/HomePage";
 import { About } from 'pages/About';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -26,8 +26,8 @@ function App() {
             <Route exact path="/" element={<HomePage />} />
             <Route
               exact
-              path="/business/:businessName"
-              element={<BobaBusiness />}
+              path="/business/top_drinks/:businessId"
+              element={<BobaBusinessPage />}
             />
             <Route exact path="/about" element={<About />} />
           </Routes>

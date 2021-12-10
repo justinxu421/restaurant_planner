@@ -35,17 +35,17 @@ class BobaBusiness:
         self.get_business_df(name)
         self.get_nouns(NOUNS_TO_EXCLUDE)
 
-    def get_business_df(self, name):
+    def get_business_df(self, business_id):
         """get the first business with matching name"""
-        self.name = name
         # Read from the yelp db to get the boba dataframe
         engine = create_engine("sqlite:///../yelp.db", echo=False)
         df_filtered = pd.read_sql(
-            get_boba_query(name),
+            get_boba_query(business_id),
             con=engine,
         )
 
         assert len(df_filtered) > 0, "No boba business found with name"
+        self.name = df_filtered.iloc[0]["name"] 
         self.bid = df_filtered.iloc[0]["business_id"]
         self.df_business = df_filtered[df_filtered["business_id"] == self.bid]
         self.overall_star = self.df_business.iloc[0]["overall_star"]
@@ -94,7 +94,7 @@ class BobaBusiness:
         for item in items:
             df = self.df_business.loc[
                 self.df_business.apply(lambda x: item in process_text(x.text), 1),
-                ['stars', 'text', 'date']
+                ['stars', 'text', 'date', 'review_id']
             ]
             reviews_dict[item] = df
         return items.most_common(), reviews_dict
@@ -109,6 +109,7 @@ class BobaBusiness:
                         "stars": review["stars"],
                         "text": review["text"],
                         "date": review["date"],
+                        "review_id": review["review_id"],
                     }
                     for (_, review) in reviews[name].iterrows()
                 ],

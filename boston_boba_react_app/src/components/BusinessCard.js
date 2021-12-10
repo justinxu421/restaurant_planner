@@ -2,7 +2,7 @@ import React from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
-import { createTheme, IconButton, Typography, ThemeProvider } from "@mui/material";
+import { createTheme, IconButton, Typography, ThemeProvider, Rating } from "@mui/material";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,13 @@ const theme = createTheme({
   }
 });
 
-export const BobaCard = ({ businessName }) => {
+export const BusinessCard = ({
+  businessId,
+  businessName,
+  businessCity,
+  businessState,
+  businessStars,
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -24,19 +30,19 @@ export const BobaCard = ({ businessName }) => {
         <Card>
           <CardHeader
             action={
-              <IconButton onClick={() => navigate(`business/${businessName}`)}>
+              <IconButton
+                onClick={() => navigate(`business/top_drinks/${businessId}`)}
+              >
                 <ArrowForwardIosIcon />
               </IconButton>
             }
             title={businessName}
-            subheader="boba"
+            subheader={`${businessCity}, ${businessState}`}
           />
           <CardContent>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-            >
-              {"placeholder text"}
+            <Rating name="read-only" value={businessStars} readOnly precision={0.5} />
+            <Typography variant="body2" color="textSecondary">
+              {`placeholder text ${businessStars}`}
             </Typography>
           </CardContent>
         </Card>

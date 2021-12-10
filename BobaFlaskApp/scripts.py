@@ -1,4 +1,4 @@
-def get_boba_query(name):
+def get_boba_query(business_id):
     return f"""WITH close_businesses AS (SELECT 
                 business_id,
                 name,
@@ -10,7 +10,7 @@ def get_boba_query(name):
                 distance_to_cambridge
             FROM businesses
             WHERE distance_to_cambridge < 10
-            AND name = '{name}'
+            AND business_id = '{business_id}'
             AND categories LIKE "%Bubble Tea%"
             )
             SELECT
@@ -21,6 +21,7 @@ def get_boba_query(name):
                 state,
                 close_businesses.stars as overall_star,
                 review_count,
+                review_id,
                 distance_to_cambridge,
                 reviews.stars,
                 text,

@@ -52,19 +52,22 @@ class DrinkReviews(db.Model):
     __tablename__ = "drink_reviews"
     business_id = db.Column(db.String, primary_key=True, index=True)
     drink_name = db.Column(db.String, primary_key=True)
+    review_id = db.Column(db.String, primary_key=True)
     date = db.Column(db.String)
-    text = db.Column(db.String, primary_key=True)
+    text = db.Column(db.String)
     stars = db.Column(db.Integer)
 
     def __init__(
         self,
         business_id,
         drink_name,
+        review_id,
         date,
         text,
         stars,
     ):
         self.business_id = business_id
+        self.review_id = review_id 
         self.drink_name = drink_name
         self.date = date
         self.text = text

@@ -1,23 +1,20 @@
-import React, { useState } from "react";
-import { Button, Container, Grid, TextField, Typography } from "@mui/material";
-import { BobaCard } from "../components/BobaBusinessCard";
+import React, { useEffect, useState } from "react";
+import { Button, Container, TextField, Typography } from "@mui/material";
+import { BusinessCard } from "../components/BusinessCard";
 import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
 import Masonry from 'react-masonry-css'
 
 
 export function HomePage() {
-  // const [bobaBusiness, setBobaBusiness] = useState("");
+  const [businessValues, setBusinessValues] = useState([]);
 
-  const businesses = [
-    "Gong Cha",
-    "Kung Fu Tea",
-    "Boba Me",
-    "OneZo",
-    "Chatime",
-    "Tsaocaa",
-    "Happy Lemon Boston",
-    "Chatime Quincy",
-  ];
+  useEffect(() => {
+    fetch(`/business/home`)
+      .then((res) => res.json())
+      .then((data) => {
+        setBusinessValues(data.businesses);
+      });
+  }, []);
 
   const breakpoints = {
     default: 3,
@@ -52,9 +49,15 @@ export function HomePage() {
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         >
-          {businesses.map((business, id) => (
+          {businessValues.map((business, id) => (
             <div key={id}>
-              <BobaCard businessName={business} />
+              <BusinessCard
+                businessName={business.name}
+                businessId={business.business_id}
+                businessCity={business.city}
+                businessState={business.state}
+                businessStars={business.overall_star}
+              />
             </div>
           ))}
         </Masonry>
