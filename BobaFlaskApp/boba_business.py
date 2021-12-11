@@ -30,9 +30,9 @@ def process_text(text):
 
 
 class BobaBusiness:
-    def __init__(self, name):
+    def __init__(self, business_id):
         self.nlp = spacy.load("en_core_web_sm")
-        self.get_business_df(name)
+        self.get_business_df(business_id)
         self.get_nouns(NOUNS_TO_EXCLUDE)
 
     def get_business_df(self, business_id):
@@ -52,7 +52,7 @@ class BobaBusiness:
         self.city = self.df_business.iloc[0]["city"]
         self.state = self.df_business.iloc[0]["state"]
         self.address = self.df_business.iloc[0]["address"]
-        self.review_count = self.df_business.iloc[0]["address"]
+        self.review_count = self.df_business.iloc[0]["review_count"]
 
     def get_nouns(self, to_exclude: set):
         """

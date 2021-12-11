@@ -6,12 +6,9 @@ def get_boba_query(business_id):
                 city,
                 state,
                 stars,
-                review_count,
-                distance_to_cambridge
+                review_count
             FROM businesses
-            WHERE distance_to_cambridge < 10
-            AND business_id = '{business_id}'
-            AND categories LIKE "%Bubble Tea%"
+            WHERE business_id = '{business_id}'
             )
             SELECT
                 close_businesses.business_id,
@@ -22,7 +19,6 @@ def get_boba_query(business_id):
                 close_businesses.stars as overall_star,
                 review_count,
                 review_id,
-                distance_to_cambridge,
                 reviews.stars,
                 text,
                 date

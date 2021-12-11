@@ -1,5 +1,7 @@
+// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
+import Box from '@mui/material/Box';
 import { TopDrinkAccordion } from "../components/TopDrinkAccordion";
 import { useParams } from "react-router-dom";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
@@ -15,24 +17,39 @@ const theme = createTheme({
 
 export const BobaBusinessPage = () => {
   const { businessId } = useParams();
+  const [businessValues, setBusinessValues] = useState();
   const [topDrinks, setTopDrinks] = useState([]);
   const [expanded, setExpanded] = useState(false);
-  const [city, setCity] = useState(null);
-  const [name, setName] = useState(null);
-  const [state, setState] = useState(null);
-  const [overallStars, setOverallStars] = useState(null);
+  // const [city, setCity] = useState(null);
+  // const [name, setName] = useState(null);
+  // const [state, setState] = useState(null);
+  // const [overallStars, setOverallStars] = useState(null);
 
   useEffect(() => {
-    fetch(`/business/top_drinks/${businessId}`)
+    fetch(`/business/${businessId}/info`)
+      .then((res) => res.json())
+      .then((data) => {
+        setBusinessValues(data);
+      });
+  }, [businessId]);
+
+  useEffect(() => {
+    fetch(`/business/${businessId}/top_drinks`)
       .then((res) => res.json())
       .then((data) => {
         setTopDrinks(data.top_drinks);
-        setCity(data.city);
-        setName(data.business_name);
-        setState(data.state);
-        setOverallStars(data.overall_stars);
       });
   }, [businessId]);
+
+  console.log(businessValues);
+  const {
+    address,
+    name,
+    overall_star,
+    review_count,
+    city,
+    state,
+  } = { ...businessValues };
 
   return (
     <Container>
@@ -40,11 +57,13 @@ export const BobaBusinessPage = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           {name} Top Drinks
         </Typography>
-        {city && state && overallStars && (
-          <Typography>
-            {city}, {state}: {overallStars} stars
-          </Typography>
-        )}
+        <Typography variant="subtitle1" component="h2">
+          <Box fontWeight='fontWeightMedium' display='inline'>
+            {address} {city}, {state}:
+          </Box> {' '} {overall_star} stars with {review_count} reviews
+        </Typography>
+        {/* <Typography variant="subtitle1" component="h2" >
+        </Typography> */}
         <br />
         {topDrinks.map((drink, i) => (
           <ThemeProvider theme={theme}>

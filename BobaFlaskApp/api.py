@@ -22,25 +22,14 @@ migrate.init_app(app, db)
 
 def force_load_top_drinks(business_id: str, num_drinks=10):
     bb = BobaBusiness(business_id)
+    print(bb.bid)
 
     # drop existing business reviews and drinks to prevent double writing
-    Business.query.filter_by(business_id=business_id).delete()
     TopDrink.query.filter_by(business_id=business_id).delete()
     DrinkReviews.query.filter_by(business_id=business_id).delete()
     db.session.commit()
 
-    business_item = Business(
-        business_id,
-        bb.name,
-        bb.address,
-        bb.city,
-        bb.state,
-        bb.overall_star,
-        bb.review_count,
-    )
-    db.session.add(business_item)
     top_drinks = bb.get_drink_items()
-    print(top_drinks)
 
     for drink in top_drinks:
         drink_item = TopDrink(business_id, drink["drink_name"], drink["score"])
@@ -58,12 +47,6 @@ def force_load_top_drinks(business_id: str, num_drinks=10):
     db.session.commit()
 
     return {
-        "business_name": bb.name,
-        "business_id": business_id,
-        "address": bb.address,
-        "city": bb.city,
-        "state": bb.state,
-        "overall_stars": bb.overall_star,
         "top_drinks": top_drinks[:num_drinks],
     }
 
@@ -79,11 +62,11 @@ def serialize_reviews(reviews):
     ]
 
 
-def get_drink_payload(business: Business, drinks: List[DrinkReviews], num_drinks=10):
+def get_drink_payload(business_id, drinks: List[DrinkReviews], num_drinks=10):
     top_drinks = []
     for drink in drinks[:num_drinks]:
         reviews = DrinkReviews.query.filter_by(
-            business_id=business.business_id, drink_name=drink.drink_name
+            business_id=business_id, drink_name=drink.drink_name
         ).all()
         drink_info = {
             "drink_name": drink.drink_name,
@@ -93,33 +76,8 @@ def get_drink_payload(business: Business, drinks: List[DrinkReviews], num_drinks
         top_drinks.append(drink_info)
 
     return {
-        "business_name": business.name,
-        "business_id": business.business_id,
-        "address": business.address,
-        "city": business.city,
-        "state": business.state,
-        "overall_stars": business.overall_star,
         "top_drinks": top_drinks,
     }
-
-
-@app.route("/business/top_drinks/<business_id>")
-def get_top_drinks(business_id: str):
-    # if it exists in the database, read and return
-    business = Business.query.filter_by(business_id=business_id).first()
-    if business:
-        # check if drinks are saved
-        drinks = (
-            TopDrink.query.filter_by(business_id=business_id)
-            .order_by(TopDrink.score.desc())
-            .all()
-        )
-        print(drinks)
-        if drinks:
-            return get_drink_payload(business, drinks)
-
-    # otherwise we need to call our NLP API and then save our info
-    return force_load_top_drinks(business_id)
 
 
 def get_business_info(business: Business):
@@ -130,10 +88,11 @@ def get_business_info(business: Business):
         "city": business.city,
         "state": business.state,
         "overall_star": business.overall_star,
+        "review_count": business.review_count,
     }
 
 
-@app.route("/business/values/<business_id>")
+@app.route("/business/<business_id>/info")
 def get_business(business_id):
     business = Business.query.filter_by(business_id=business_id).first()
     return get_business_info(business)
@@ -145,7 +104,23 @@ def get_businesses():
     return {"businesses": [get_business_info(x) for x in businesses]}
 
 
-@app.route("/force/business/top_drink/<business_id>")
+@app.route("/business/<business_id>/top_drinks")
+def get_top_drinks(business_id: str):
+    # if it exists in the database, read and return
+    drinks = (
+        TopDrink.query.filter_by(business_id=business_id)
+        .order_by(TopDrink.score.desc())
+        .all()
+    )
+    print(drinks)
+    if drinks:
+        return get_drink_payload(business_id, drinks)
+
+    # otherwise we need to call our NLP API and then save our info
+    return force_load_top_drinks(business_id)
+
+
+@app.route("/force/business/<business_id>/top_drinks")
 def force_get_top_drinks(business_id: str):
     # force call the NLP API to return info
     return force_load_top_drinks(business_id)

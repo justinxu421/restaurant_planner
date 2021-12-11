@@ -17,7 +17,7 @@ export function HomePage() {
   }, []);
 
   const breakpoints = {
-    default: 3,
+    default: 4,
     1100: 2, 
     700: 1
   }
@@ -52,11 +52,7 @@ export function HomePage() {
           {businessValues.map((business, id) => (
             <div key={id}>
               <BusinessCard
-                businessName={business.name}
-                businessId={business.business_id}
-                businessCity={business.city}
-                businessState={business.state}
-                businessStars={business.overall_star}
+                business={business}
               />
             </div>
           ))}
