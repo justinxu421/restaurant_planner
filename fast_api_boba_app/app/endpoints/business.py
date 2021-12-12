@@ -19,11 +19,15 @@ def get_business_info(business: Business):
     }
 
 
-@router.get("/{business_id}")
-def get_business(*, db: Session = Depends(dependencies.get_db), business_id):
-    business = db.query(Business).filter_by(business_id=business_id).first()
-    return get_business_info(business)
+# @router.get("/{business_id}")
+# def get_business(*, db: Session = Depends(dependencies.get_db), business_id):
+#     business = db.query(Business).filter_by(business_id=business_id).first()
+#     return get_business_info(business)
 
+@router.get("/home")
+def get_all_business(db: Session = Depends(dependencies.get_db)):
+    businesses = db.query(Business).order_by(Business.business_id).limit(10).all()
+    return {"businesses": [get_business_info(x) for x in businesses]}
 
 # def force_load_top_drinks(db, business_id: str, num_drinks=10):
 #     bb = BobaBusiness(business_id)

@@ -1,9 +1,10 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, Float
 from sqlalchemy.orm import relationship
 
-from app.db.base_class import Base
+from app.db.base import Base
 
 class Business(Base):
+    __tablename__ = "businesses"
     business_id = Column(String, primary_key=True, index=True)
     name = Column(String)
     address = Column(String)

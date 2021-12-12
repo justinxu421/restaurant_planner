@@ -12,6 +12,7 @@ export function HomePage() {
     fetch(`/business/home`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.test);
         setBusinessValues(data.businesses);
       });
   }, []);
