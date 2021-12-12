@@ -19,10 +19,10 @@ def get_business_info(business: Business):
     }
 
 
-# @router.get("/{business_id}")
-# def get_business(*, db: Session = Depends(dependencies.get_db), business_id):
-#     business = db.query(Business).filter_by(business_id=business_id).first()
-#     return get_business_info(business)
+@router.get("/{business_id}")
+def get_business(*, db: Session = Depends(dependencies.get_db), business_id):
+    business = db.query(Business).filter_by(business_id=business_id).first()
+    return get_business_info(business)
 
 @router.get("/home")
 def get_all_business(db: Session = Depends(dependencies.get_db)):
