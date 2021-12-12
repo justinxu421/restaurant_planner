@@ -20,10 +20,6 @@ export const BobaBusinessPage = () => {
   const [businessValues, setBusinessValues] = useState();
   const [topDrinks, setTopDrinks] = useState([]);
   const [expanded, setExpanded] = useState(false);
-  // const [city, setCity] = useState(null);
-  // const [name, setName] = useState(null);
-  // const [state, setState] = useState(null);
-  // const [overallStars, setOverallStars] = useState(null);
 
   useEffect(() => {
     fetch(`/business/${businessId}/info`)
@@ -37,11 +33,11 @@ export const BobaBusinessPage = () => {
     fetch(`/business/${businessId}/top_drinks`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.top_drinks);
         setTopDrinks(data.top_drinks);
       });
   }, [businessId]);
 
-  console.log(businessValues);
   const {
     address,
     name,

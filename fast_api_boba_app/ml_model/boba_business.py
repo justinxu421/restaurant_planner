@@ -6,15 +6,15 @@ import spacy
 from sqlalchemy import create_engine
 from wordfreq import word_frequency
 
-from constants import NOUNS_TO_EXCLUDE
-from scripts import get_boba_query
+from .constants import NOUNS_TO_EXCLUDE
+from .scripts import get_boba_query
 
 
 def process_text(text):
     return (
         text.replace("\n", "")
         .replace('"', "")
-        .replace(',', "")
+        .replace(",", "")
         .strip()
         .lower()
         .removeprefix("the ")
@@ -45,7 +45,7 @@ class BobaBusiness:
         )
 
         assert len(df_filtered) > 0, "No boba business found with name"
-        self.name = df_filtered.iloc[0]["name"] 
+        self.name = df_filtered.iloc[0]["name"]
         self.bid = df_filtered.iloc[0]["business_id"]
         self.df_business = df_filtered[df_filtered["business_id"] == self.bid]
         self.overall_star = self.df_business.iloc[0]["overall_star"]
@@ -94,7 +94,7 @@ class BobaBusiness:
         for item in items:
             df = self.df_business.loc[
                 self.df_business.apply(lambda x: item in process_text(x.text), 1),
-                ['stars', 'text', 'date', 'review_id']
+                ["stars", "text", "date", "review_id"],
             ]
             reviews_dict[item] = df
         return items.most_common(), reviews_dict
@@ -117,12 +117,9 @@ class BobaBusiness:
             for name, score in items
         ]
 
-
     def get_drink_items(self):
         drink_items, drink_reviews = self.get_keyword_items(["tea", "teas", "slush"])
         return self.serialize(drink_items, drink_reviews)
 
     def get_topping_items(self):
-        return self.get_keyword_items(
-            ["boba", "jelly", "taro"]
-        )
+        return self.get_keyword_items(["boba", "jelly", "taro"])

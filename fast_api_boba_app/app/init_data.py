@@ -15,7 +15,7 @@ def init() -> None:
 
 
 def main() -> None:
-    conn = sqlite3.connect('../../yelp.db')
+    conn = sqlite3.connect('../yelp.db')
     c = conn.cursor()
     c.execute('ATTACH DATABASE "../boba_data.db" AS boba_db')
 
