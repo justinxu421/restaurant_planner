@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from '@mui/material/styles';
+import { Box } from "@mui/material";
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import Rating from '@mui/material/Rating';
 import MuiAccordion from '@mui/material/Accordion';
@@ -60,13 +61,13 @@ export const TopDrinkAccordion = ({ i, drink, expanded, setExpanded }) => {
       </AccordionSummary>
       <AccordionDetails>
         {drink.reviews.map((review, i) => (
-          <div className="review" key={i}>
+          <Box sx={{ borderBottom: "5px solid black" }} key={i}>
             <Typography>
               <b> Review {i + 1}</b>
             </Typography>
             <Typography>{review.text}</Typography>
             <Rating name="read-only" value={review.stars} readOnly />
-          </div>
+          </Box>
         ))}
       </AccordionDetails>
     </Accordion>

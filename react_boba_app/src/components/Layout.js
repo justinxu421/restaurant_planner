@@ -1,6 +1,7 @@
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from '@mui/icons-material/Info';
 import {
+  Box,
   Drawer,
   List,
   ListItem,
@@ -8,40 +9,12 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 200;
-const useStyles = makeStyles((theme) => {
-  return {
-    page: {
-      background: "#f9f9f9",
-      width: "100%",
-      // @ts-ignore
-      padding: theme.spacing(3),
-    },
-    drawer: {
-      width: drawerWidth,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    root: {
-      display: "flex",
-    },
-    active: {
-      backgroundColor: "#f4f4f4",
-    },
-    title: {
-      // @ts-ignore
-      padding: theme.spacing(2),
-    },
-  };
-});
 
 export const Layout = ({ children }) => {
-  const classes = useStyles();
   const navigate = useNavigate();
   const location = useLocation();
   console.log(location.pathname);
@@ -59,24 +32,25 @@ export const Layout = ({ children }) => {
     },
   ];
   return (
-    <div className={classes.root}>
+    <Box sx={{ display: "flex" }}>
       {/* side drawer */}
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        anchor="left"
-        classes={{ paper: classes.drawerPaper }}
-      >
+      <Drawer sx={{ width: drawerWidth }} variant="permanent" anchor="left">
         <div>
-          <Typography variant="h5" className={classes.title}>Boston Boba</Typography>
+          <Typography variant="h5" sx={{ padding: 2 }}>
+            Boston Boba
+          </Typography>
         </div>
 
         {/* list / links */}
         <List>
           {menuItems.map((item) => (
-            <div
-              className={
-                location.pathname === item.path ? classes.active : null
+            <Box
+              sx={
+                location.pathname === item.path
+                  ? {
+                      backgroundColor: "#f4f4f4",
+                    }
+                  : null
               }
             >
               <ListItem
@@ -87,11 +61,19 @@ export const Layout = ({ children }) => {
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text}> </ListItemText>
               </ListItem>
-            </div>
+            </Box>
           ))}
         </List>
       </Drawer>
-      <div className={classes.page}>{children}</div>
-    </div>
+      <Box
+        sx={{
+          background: "#f9f9f9",
+          width: "100%",
+          padding: 3,
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
   );
 };

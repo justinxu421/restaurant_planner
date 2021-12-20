@@ -49,14 +49,15 @@ export const BobaBusinessPage = () => {
 
   return (
     <Container>
-      <div className="App">
+      <Box sx={{ textAlign: "left" }}>
         <Typography variant="h4" component="h1" gutterBottom>
           {name} Top Drinks
         </Typography>
         <Typography variant="subtitle1" component="h2">
-          <Box fontWeight='fontWeightMedium' display='inline'>
+          <Box fontWeight="fontWeightMedium" display="inline">
             {address} {city}, {state}:
-          </Box> {' '} {overall_star} stars with {review_count} reviews
+          </Box>{" "}
+          {overall_star} stars with {review_count} reviews
         </Typography>
         {/* <Typography variant="subtitle1" component="h2" >
         </Typography> */}
@@ -72,7 +73,7 @@ export const BobaBusinessPage = () => {
             />
           </ThemeProvider>
         ))}
-      </div>
+      </Box>
     </Container>
   );
 };

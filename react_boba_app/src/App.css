@@ -1,18 +1,3 @@
-.App {
-  text-align: left;
-}
-
-.title {
-  color: rebeccapurple;
-  padding-left: 15px;
-  text-align: left;
-  font-size: x-large;
-}
-
-.review{
-  border-bottom: 5px solid black;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;

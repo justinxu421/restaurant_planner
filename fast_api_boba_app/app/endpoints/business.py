@@ -8,7 +8,6 @@ from ml_model.boba_business import BobaBusiness
 
 router = APIRouter(prefix="/business", tags=["business"])
 
-
 def get_business_info(business: Business):
     return {
         "business_id": business.business_id,
@@ -84,10 +83,10 @@ def serialize_reviews(reviews: DrinkReviews):
     ]
 
 
-def get_drink_payload(business_id: str, drinks: List[DrinkReviews], num_drinks=10):
+def get_drink_payload(db: Session, business_id: str, drinks: List[DrinkReviews], num_drinks=10):
     top_drinks = []
     for drink in drinks[:num_drinks]:
-        reviews = DrinkReviews.query.filter_by(
+        reviews = db.query(DrinkReviews).filter_by(
             business_id=business_id, drink_name=drink.drink_name
         ).all()
         drink_info = {
@@ -113,7 +112,7 @@ def get_top_drinks(business_id: str, db: Session = Depends(dependencies.get_db))
     )
     print(drinks)
     if drinks:
-        return get_drink_payload(business_id, drinks)
+        return get_drink_payload(db, business_id, drinks)
 
     # otherwise we need to call our NLP API and then save our info
     return force_load_top_drinks(db, business_id)
