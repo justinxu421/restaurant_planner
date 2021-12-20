@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 
 from app.db.base import Base
 
+
 class Business(Base):
     __tablename__ = "businesses"
     business_id = Column(String, primary_key=True, index=True)
@@ -29,3 +30,17 @@ class DrinkReviews(Base):
     date = Column(String)
     text = Column(String)
     stars = Column(Integer)
+
+
+class BaseReviews(Base):
+    __tablename__ = "reviews"
+    review_id = Column(String, primary_key=True, index=True)
+    user_id = Column(String, primary_key=True)
+    business_id = Column(String, primary_key=True)
+    stars = Column(Integer)
+    useful = Column(Integer)
+    funny = Column(Integer)
+    cool = Column(Integer)
+    text = Column(String)
+    date = Column(String)
+    text_length = Column(Integer)

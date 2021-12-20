@@ -38,7 +38,7 @@ class BobaBusiness:
     def get_business_df(self, business_id):
         """get the first business with matching name"""
         # Read from the yelp db to get the boba dataframe
-        engine = create_engine("sqlite:///../yelp.db", echo=False)
+        engine = create_engine("sqlite:///boba_data.db", echo=False)
         df_filtered = pd.read_sql(
             get_boba_query(business_id),
             con=engine,

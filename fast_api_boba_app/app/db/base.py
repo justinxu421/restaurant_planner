@@ -14,4 +14,4 @@ class Base:
     def __tablename__(cls) -> str:
         return cls.__name__.lower()
 
-from app.models.business import Business, TopDrink, DrinkReviews # noqa
+from app.models.business import Business, TopDrink, DrinkReviews, BaseReviews # noqa

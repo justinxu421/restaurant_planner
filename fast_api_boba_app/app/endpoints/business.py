@@ -8,6 +8,7 @@ from ml_model.boba_business import BobaBusiness
 
 router = APIRouter(prefix="/business", tags=["business"])
 
+
 def get_business_info(business: Business):
     return {
         "business_id": business.business_id,
@@ -37,7 +38,7 @@ def get_business(*, db: Session = Depends(dependencies.get_db), business_id: str
 
 def force_load_top_drinks(db: Session, business_id: str, num_drinks=10):
     bb = BobaBusiness(business_id)
-    print('boba business')
+    print("boba business")
     print(bb.bid)
 
     # drop existing business reviews and drinks to prevent double writing
@@ -83,12 +84,16 @@ def serialize_reviews(reviews: DrinkReviews):
     ]
 
 
-def get_drink_payload(db: Session, business_id: str, drinks: List[DrinkReviews], num_drinks=10):
+def get_drink_payload(
+    db: Session, business_id: str, drinks: List[DrinkReviews], num_drinks=10
+):
     top_drinks = []
     for drink in drinks[:num_drinks]:
-        reviews = db.query(DrinkReviews).filter_by(
-            business_id=business_id, drink_name=drink.drink_name
-        ).all()
+        reviews = (
+            db.query(DrinkReviews)
+            .filter_by(business_id=business_id, drink_name=drink.drink_name)
+            .all()
+        )
         drink_info = {
             "drink_name": drink.drink_name,
             "score": drink.score,

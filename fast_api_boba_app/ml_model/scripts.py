@@ -1,12 +1,5 @@
 def get_boba_query(business_id):
-    return f"""WITH close_businesses AS (SELECT 
-                business_id,
-                name,
-                address,
-                city,
-                state,
-                stars,
-                review_count
+    return f"""WITH close_businesses AS (SELECT *               
             FROM businesses
             WHERE business_id = '{business_id}'
             )
@@ -16,7 +9,7 @@ def get_boba_query(business_id):
                 address,
                 city,
                 state,
-                close_businesses.stars as overall_star,
+                overall_star,
                 review_count,
                 review_id,
                 reviews.stars,
