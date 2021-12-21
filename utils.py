@@ -6,6 +6,9 @@ from sqlalchemy import create_engine
 
 from data_constants import COORD_DICT
 
+YELP_DB = "sqlite:///yelp.db"
+
+
 def get_distance_in_miles_to_point(row, center):
     """Helper function that given a dataframe row, calculates the distance
        Should likely be used within an apply function on a pandas dataframe
@@ -112,7 +115,7 @@ def get_join_query(table, center_name, radius):
 
 def load_close_tips(center_name, radius):
     """Read in yelp tips dataset and join with corresponding close businesses dataset"""
-    engine = create_engine("sqlite:///yelp.db", echo=False)
+    engine = create_engine(YELP_DB, echo=False)
     query = get_join_query("tips", center_name, radius)
     print(query)
     df_close_tips = pd.read_sql(
@@ -125,7 +128,7 @@ def load_close_tips(center_name, radius):
 
 def load_close_reviews(center_name, radius):
     """Read in yelp tips dataset and join with corresponding close businesses dataset"""
-    engine = create_engine("sqlite:///yelp.db", echo=False)
+    engine = create_engine(YELP_DB, echo=False)
     query = get_join_query("reviews", center_name, radius)
     print(query)
     df_close_reviews = pd.read_sql(
@@ -138,7 +141,7 @@ def load_close_reviews(center_name, radius):
 
 def load_close_businesses(center_name, radius):
     """Read in yelp business dataset and find the rows of within radius (in miles) of center"""
-    engine = create_engine("sqlite:///yelp.db", echo=False)
+    engine = create_engine(YELP_DB, echo=False)
     query = f"SELECT * FROM businesses WHERE distance_to_{center_name} <= {radius}"
     print(query)
     df_close = pd.read_sql(

@@ -17,9 +17,9 @@ def load_businesses():
     df_business.attributes = df_business.attributes.astype(str)
     df_business.categories = df_business.categories.astype(str)
     df_business.hours = df_business.hours.astype(str)
-    engine = create_engine("sqlite:///yelp.db", echo=True)
+    engine = create_engine(utils.YELP_DB, echo=True)
     df_business.to_sql("businesses", con=engine, if_exists="replace")
-    utils.make_index('yelp.db', 'businesses', 'business_id')
+    utils.make_index("yelp.db", "businesses", "business_id")
 
 
 def load_tips():
@@ -27,12 +27,12 @@ def load_tips():
     df_tip = pd.read_json("yelp_dataset/yelp_academic_dataset_tip.json", lines=True)
     df_tip = utils.insert_text_length_column(df_tip)
     df_tip = utils.insert_sentiment_column(df_tip)
-    engine = create_engine("sqlite:///yelp.db", echo=True)
+    engine = create_engine(utils.YELP_DB, echo=True)
     df_tip.to_sql("tips", con=engine, if_exists="replace")
-    utils.make_index('yelp.db', 'tips', 'business_id')
+    utils.make_index("yelp.db", "tips", "business_id")
 
 
-def load_reviews(sentiment = False):
+def load_reviews(sentiment=False):
     print("loading reviews")
     df_review = pd.read_json(
         "yelp_dataset/yelp_academic_dataset_review.json", lines=True
@@ -40,9 +40,9 @@ def load_reviews(sentiment = False):
     df_review = utils.insert_text_length_column(df_review)
     if sentiment:
         df_review = utils.insert_sentiment_column(df_review)
-    engine = create_engine("sqlite:///yelp.db", echo=True)
+    engine = create_engine(utils.YELP_DB, echo=True)
     df_review.to_sql("reviews", con=engine, if_exists="replace")
-    utils.make_index('yelp.db', 'reviews', 'business_id')
+    utils.make_index("yelp.db", "reviews", "business_id")
 
 
 if __name__ == "__main__":
