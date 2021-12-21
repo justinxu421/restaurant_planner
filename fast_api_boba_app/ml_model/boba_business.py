@@ -3,12 +3,16 @@ from collections import Counter, defaultdict
 
 import pandas as pd
 import spacy
-from app.db.session import DATABASE_URL
+from dotenv import find_dotenv, load_dotenv
+
 from sqlalchemy import create_engine
 from wordfreq import word_frequency
 
 from .constants import NOUNS_TO_EXCLUDE
 from .scripts import get_boba_query
+
+load_dotenv(find_dotenv())
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 
 def process_text(text):

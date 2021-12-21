@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
@@ -27,13 +27,15 @@ def get_all_business(db: Session = Depends(get_db)):
     return {"businesses": [get_business_info(x) for x in businesses]}
 
 
-@router.get("/{business_id}/info")
+@router.get("/{business_id}/info", status_code=200)
 def get_business(*, db: Session = Depends(get_db), business_id: str):
     business = db.query(Business).filter_by(business_id=business_id).first()
     if business:
         return get_business_info(business)
     else:
-        raise HTTPException(status_code=400, detail="Business does not exist")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Business does not exist"
+        )
 
 
 def force_load_top_drinks(db: Session, business_id: str, num_drinks=10):
@@ -115,15 +117,20 @@ def get_top_drinks(business_id: str, db: Session = Depends(get_db)):
         .order_by(TopDrink.score.desc())
         .all()
     )
-    print(drinks)
     if drinks:
         return get_drink_payload(db, business_id, drinks)
 
     # otherwise we need to call our NLP API and then save our info
-    return force_load_top_drinks(db, business_id)
+    return force_get_top_drinks(business_id, db)
 
 
 @router.get("/{business_id}/top_drinks/force")
 def force_get_top_drinks(business_id: str, db: Session = Depends(get_db)):
     # force call the NLP API to return info
-    return force_load_top_drinks(db, business_id)
+    business = db.query(Business).filter_by(business_id=business_id).first()
+    if business:
+        return force_load_top_drinks(db, business_id)
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Business does not exist"
+        )
