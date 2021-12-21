@@ -1,6 +1,5 @@
 def get_boba_query(business_id):
     return f"""
-    --sql
     WITH close_businesses AS (
         SELECT *               
         FROM businesses

@@ -8,6 +8,7 @@ from wordfreq import word_frequency
 
 from .constants import NOUNS_TO_EXCLUDE
 from .scripts import get_boba_query
+from app.db.session import DATABASE_URL
 
 
 def process_text(text):
@@ -38,7 +39,7 @@ class BobaBusiness:
     def get_business_df(self, business_id):
         """get the first business with matching name"""
         # Read from the yelp db to get the boba dataframe
-        engine = create_engine("sqlite:///boba_data.db", echo=False)
+        engine = create_engine(DATABASE_URL, echo=False)
         df_filtered = pd.read_sql(
             get_boba_query(business_id),
             con=engine,

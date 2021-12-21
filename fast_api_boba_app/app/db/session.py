@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import os
 
-SQLALCHEMY_DATABASE_URI = "sqlite:///boba_data.db"
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-engine = create_engine(SQLALCHEMY_DATABASE_URI, pool_pre_ping=True)
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
