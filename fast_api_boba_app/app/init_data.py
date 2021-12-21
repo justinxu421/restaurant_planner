@@ -1,7 +1,4 @@
 import logging
-
-from app.db.init_db import init_db
-from app.db.session import SessionLocal
 import sqlite3
 
 logging.basicConfig(level=logging.INFO)
@@ -9,8 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 def init() -> None:
-    db = SessionLocal()
-    init_db(db)
+    pass
 
 
 def init_businesses(c, conn):
@@ -79,9 +75,9 @@ def main() -> None:
     # TODO: in the future, make this less hacky with a cloud based implementation (PostgresSQL)
     # read from a copy of yelp_db into boba_data_db to initialize our data
 
-    conn = sqlite3.connect("../yelp.db")
+    conn = sqlite3.connect("yelp.db")
     c = conn.cursor()
-    c.execute("ATTACH DATABASE '../boba_data.db' AS boba_db")
+    c.execute("ATTACH DATABASE 'boba_data.db' AS boba_db")
 
     logger.info("Creating initial data")
     init_businesses(c, conn)

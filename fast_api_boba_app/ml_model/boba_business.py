@@ -3,12 +3,12 @@ from collections import Counter, defaultdict
 
 import pandas as pd
 import spacy
+from app.db.session import DATABASE_URL
 from sqlalchemy import create_engine
 from wordfreq import word_frequency
 
 from .constants import NOUNS_TO_EXCLUDE
 from .scripts import get_boba_query
-from app.db.session import DATABASE_URL
 
 
 def process_text(text):

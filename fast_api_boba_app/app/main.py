@@ -1,13 +1,12 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+
 from app.endpoints import business
 
-from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000"
-]
+origins = ["http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
