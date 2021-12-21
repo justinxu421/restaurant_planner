@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app import dependencies
+from app.dependencies import get_db
 from app.models.business import Business, TopDrink, DrinkReviews
 from ml_model.boba_business import BobaBusiness
 
@@ -22,13 +22,13 @@ def get_business_info(business: Business):
 
 
 @router.get("/home")
-def get_all_business(db: Session = Depends(dependencies.get_db)):
+def get_all_business(db: Session = Depends(get_db)):
     businesses = db.query(Business).order_by(Business.business_id).limit(10).all()
     return {"businesses": [get_business_info(x) for x in businesses]}
 
 
 @router.get("/{business_id}/info")
-def get_business(*, db: Session = Depends(dependencies.get_db), business_id: str):
+def get_business(*, db: Session = Depends(get_db), business_id: str):
     business = db.query(Business).filter_by(business_id=business_id).first()
     if business:
         return get_business_info(business)
@@ -107,7 +107,7 @@ def get_drink_payload(
 
 
 @router.get("/{business_id}/top_drinks")
-def get_top_drinks(business_id: str, db: Session = Depends(dependencies.get_db)):
+def get_top_drinks(business_id: str, db: Session = Depends(get_db)):
     # if it exists in the database, read and return
     drinks = (
         db.query(TopDrink)
@@ -124,6 +124,6 @@ def get_top_drinks(business_id: str, db: Session = Depends(dependencies.get_db))
 
 
 @router.get("/{business_id}/top_drinks/force")
-def force_get_top_drinks(business_id: str, db: Session = Depends(dependencies.get_db)):
+def force_get_top_drinks(business_id: str, db: Session = Depends(get_db)):
     # force call the NLP API to return info
     return force_load_top_drinks(db, business_id)
