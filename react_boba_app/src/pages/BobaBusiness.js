@@ -1,10 +1,10 @@
 // @ts-nocheck
-import React, { useState, useEffect } from "react";
-import Typography from "@mui/material/Typography";
-import Box from '@mui/material/Box';
-import { TopDrinkAccordion } from "../components/TopDrinkAccordion";
-import { useParams } from "react-router-dom";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { TopDrinkAccordion } from "../components/TopDrinkAccordion";
 
 const theme = createTheme({
   typography: {
@@ -38,14 +38,9 @@ export const BobaBusinessPage = () => {
       });
   }, [businessId]);
 
-  const {
-    address,
-    name,
-    overall_star,
-    review_count,
-    city,
-    state,
-  } = { ...businessValues };
+  const { address, name, overall_star, review_count, city, state } = {
+    ...businessValues,
+  };
 
   return (
     <Container>
@@ -56,11 +51,10 @@ export const BobaBusinessPage = () => {
         <Typography variant="subtitle1" component="h2">
           <Box fontWeight="fontWeightMedium" display="inline">
             {address} {city}, {state}:
-          </Box>{" "}
-          {overall_star} stars with {review_count} reviews
+          </Box>
+          {overall_star} stars with {review_count}
         </Typography>
-        {/* <Typography variant="subtitle1" component="h2" >
-        </Typography> */}
+        <Typography variant="subtitle1" component="h2"></Typography>
         <br />
         {topDrinks.map((drink, i) => (
           <ThemeProvider theme={theme}>

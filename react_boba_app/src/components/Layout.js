@@ -1,5 +1,5 @@
 import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
   Drawer,

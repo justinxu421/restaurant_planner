@@ -4,7 +4,6 @@ from collections import Counter, defaultdict
 import pandas as pd
 import spacy
 from dotenv import find_dotenv, load_dotenv
-
 from sqlalchemy import create_engine
 from wordfreq import word_frequency
 

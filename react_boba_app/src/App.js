@@ -4,17 +4,17 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { BobaBusinessPage } from "./pages/BobaBusiness";
 import { HomePage } from "./pages/HomePage";
-import { About } from 'pages/About';
+import { About } from "pages/About";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Layout } from "components/Layout";
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Sora',
+    fontFamily: "Sora",
     fontWeightLight: 400,
     fontWeightRegular: 500,
     fontWeightMedium: 600,
-  }
+  },
 });
 
 function App() {
