@@ -6,7 +6,7 @@ from app.endpoints import business
 
 app = FastAPI()
 
-origins = ["http://localhost:3000"]
+origins = ["http://localhost:3000", "https://justinxu421.github.io"]
 
 app.add_middleware(
     CORSMiddleware,
