@@ -5,7 +5,6 @@ geopy
 flask
 flask-sqlalchemy
 textblob
-nltk
 tqdm
 ipywidgets
 spacy
