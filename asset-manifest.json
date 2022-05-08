@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/restaurant-planner/static/css/main.9f66cd73.chunk.css",
+    "main.js": "/restaurant-planner/static/js/main.097a19df.chunk.js",
+    "main.js.map": "/restaurant-planner/static/js/main.097a19df.chunk.js.map",
+    "runtime-main.js": "/restaurant-planner/static/js/runtime-main.e6dfaa94.js",
+    "runtime-main.js.map": "/restaurant-planner/static/js/runtime-main.e6dfaa94.js.map",
+    "static/js/2.050a38e1.chunk.js": "/restaurant-planner/static/js/2.050a38e1.chunk.js",
+    "static/js/2.050a38e1.chunk.js.map": "/restaurant-planner/static/js/2.050a38e1.chunk.js.map",
+    "static/js/3.682b7b5e.chunk.js": "/restaurant-planner/static/js/3.682b7b5e.chunk.js",
+    "static/js/3.682b7b5e.chunk.js.map": "/restaurant-planner/static/js/3.682b7b5e.chunk.js.map",
+    "index.html": "/restaurant-planner/index.html",
+    "static/css/main.9f66cd73.chunk.css.map": "/restaurant-planner/static/css/main.9f66cd73.chunk.css.map",
+    "static/js/2.050a38e1.chunk.js.LICENSE.txt": "/restaurant-planner/static/js/2.050a38e1.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e6dfaa94.js",
+    "static/js/2.050a38e1.chunk.js",
+    "static/css/main.9f66cd73.chunk.css",
+    "static/js/main.097a19df.chunk.js"
+  ]
+}
