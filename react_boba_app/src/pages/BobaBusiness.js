@@ -22,7 +22,7 @@ export const BobaBusinessPage = () => {
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    fetch(`/business/${businessId}/info`)
+    fetch(process.env.REACT_APP_BACKEND_URL + `/business/${businessId}/info`)
       .then((res) => res.json())
       .then((data) => {
         setBusinessValues(data);
@@ -30,7 +30,9 @@ export const BobaBusinessPage = () => {
   }, [businessId]);
 
   useEffect(() => {
-    fetch(`/business/${businessId}/top_drinks`)
+    fetch(
+      process.env.REACT_APP_BACKEND_URL + `/business/${businessId}/top_drinks`
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data.top_drinks);

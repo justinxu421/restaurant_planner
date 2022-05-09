@@ -27,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "REACT_APP_BACKEND_URL=https://boba-backend-fast-api.herokuapp.com gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -47,7 +47,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://justinxu421.github.io/restaurant-planner",
+  "homepage": "https://justinxu421.github.io/restaurant_planner/",
   "proxy": "https://boba-backend-fast-api.herokuapp.com",
   "main": "index.js",
   "license": "MIT",

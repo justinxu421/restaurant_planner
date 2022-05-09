@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
 import { BusinessCard } from "../components/BusinessCard";
 import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
-import Masonry from 'react-masonry-css'
-
+import Masonry from "react-masonry-css";
 
 export function HomePage() {
   const [businessValues, setBusinessValues] = useState([]);
 
   useEffect(() => {
-    fetch(`/business/home`)
+    fetch(process.env.REACT_APP_BACKEND_URL + `/business/home`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data.test);
@@ -19,9 +18,9 @@ export function HomePage() {
 
   const breakpoints = {
     default: 4,
-    1100: 2, 
-    700: 1
-  }
+    1100: 2,
+    700: 1,
+  };
 
   return (
     <div>
@@ -52,9 +51,7 @@ export function HomePage() {
         >
           {businessValues.map((business, id) => (
             <div key={id}>
-              <BusinessCard
-                business={business}
-              />
+              <BusinessCard business={business} />
             </div>
           ))}
         </Masonry>
