@@ -40,13 +40,7 @@ export const BusinessCard = ({ business }) => {
         <Card>
           <CardActionArea onClick={() => navigate(`business/top_drinks/${id}`)}>
             <CardHeader
-              action={
-                <IconButton
-                  onClick={() => navigate(`business/top_drinks/${id}`)}
-                >
-                  <ArrowForwardIosIcon />
-                </IconButton>
-              }
+              action={<ArrowForwardIosIcon />}
               title={name}
               subheader={`${city}, ${state}`}
             />

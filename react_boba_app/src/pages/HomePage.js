@@ -3,13 +3,14 @@ import { Button, Container, TextField, Typography } from "@mui/material";
 import { BusinessCard } from "../Components/BusinessCard";
 import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
 import Masonry from "react-masonry-css";
-import { getHome } from "actions/api";
+import { getHomeBusinesses, getSearchBusinesses } from "actions/api";
 
 export function HomePage() {
   const [businessValues, setBusinessValues] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    getHome.then((res) => {
+    getHomeBusinesses.then((res) => {
       setBusinessValues(res.data.businesses);
     });
   }, []);
@@ -33,14 +34,36 @@ export function HomePage() {
         </Typography>
         <form noValidate autoComplete="off">
           <TextField
-            // onChange={(e) => setBobaBusiness(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
             label="Boba Business Name"
             variant="outlined"
             color="primary"
+            InputProps={{
+              endAdornment: (
+                <Button
+                  onClick={() =>
+                    searchTerm
+                      ? getSearchBusinesses(searchTerm).then((res) => {
+                          setBusinessValues(res.data.businesses);
+                        })
+                      : getHomeBusinesses.then((res) => {
+                          setBusinessValues(res.data.businesses);
+                        })
+                  }
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  endIcon={<LocalDrinkIcon />}
+                >
+                  Search
+                </Button>
+              ),
+            }}
             fullWidth
             required
           />
         </form>
+        {/* </Box> */}
         <br />
         <Masonry
           breakpointCols={breakpoints}
@@ -54,15 +77,6 @@ export function HomePage() {
           ))}
         </Masonry>
         <br />
-        <Button
-          onClick={() => console.log("clicked")}
-          type="submit"
-          color="primary"
-          variant="contained"
-          endIcon={<LocalDrinkIcon />}
-        >
-          Gong Cha
-        </Button>
       </Container>
     </div>
   );

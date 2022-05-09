@@ -23,7 +23,14 @@ def get_business_info(business: Business):
 
 @router.get("/home")
 def get_all_business(db: Session = Depends(get_db)):
-    businesses = db.query(Business).order_by(Business.business_id).limit(10).all()
+    businesses = db.query(Business).order_by(Business.city).limit(20).all()
+    return {"businesses": [get_business_info(x) for x in businesses]}
+
+@router.get("/search/{search_term}")
+def search_businesses(search_term: str, db: Session = Depends(get_db)):
+    businesses = db.query(Business)\
+        .filter(Business.name.like(f"%{search_term}%"))\
+        .order_by(Business.city).limit(20).all()
     return {"businesses": [get_business_info(x) for x in businesses]}
 
 

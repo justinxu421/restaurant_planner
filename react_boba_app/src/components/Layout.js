@@ -44,6 +44,7 @@ export const Layout = ({ children }) => {
         <List>
           {menuItems.map((item) => (
             <Box
+              key={item.text}
               sx={
                 location.pathname === item.path
                   ? {

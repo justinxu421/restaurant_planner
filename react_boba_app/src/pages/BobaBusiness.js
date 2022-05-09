@@ -52,17 +52,18 @@ export const BobaBusinessPage = () => {
         </Typography>
         <Typography variant="subtitle1" component="h2"></Typography>
         <br />
-        {topDrinks.map((drink, i) => (
-          <ThemeProvider theme={theme}>
-            <TopDrinkAccordion
-              key={i}
-              i={i}
-              drink={drink}
-              expanded={expanded}
-              setExpanded={setExpanded}
-            />
-          </ThemeProvider>
-        ))}
+        {topDrinks.map((drink, i) => {
+          return (
+            <ThemeProvider key={drink.drink_name} theme={theme}>
+              <TopDrinkAccordion
+                i={i}
+                drink={drink}
+                expanded={expanded}
+                setExpanded={setExpanded}
+              />
+            </ThemeProvider>
+          );
+        })}
       </Box>
     </Container>
   );
