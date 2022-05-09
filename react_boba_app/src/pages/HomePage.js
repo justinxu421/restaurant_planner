@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, TextField, Typography } from "@mui/material";
-import { BusinessCard } from "../components/BusinessCard";
+import { BusinessCard } from "../Components/BusinessCard";
 import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
 import Masonry from "react-masonry-css";
+import { getHome } from "actions/api";
 
 export function HomePage() {
   const [businessValues, setBusinessValues] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/business/home`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.test);
-        setBusinessValues(data.businesses);
-      });
+    getHome.then((res) => {
+      setBusinessValues(res.data.businesses);
+    });
   }, []);
 
   const breakpoints = {

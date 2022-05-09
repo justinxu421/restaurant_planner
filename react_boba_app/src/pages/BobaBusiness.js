@@ -2,9 +2,10 @@
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { getBusinessInfo, getTopDrinks } from "actions/api";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { TopDrinkAccordion } from "../components/TopDrinkAccordion";
+import { TopDrinkAccordion } from "../Components/TopDrinkAccordion";
 
 const theme = createTheme({
   typography: {
@@ -22,22 +23,15 @@ export const BobaBusinessPage = () => {
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/business/${businessId}/info`)
-      .then((res) => res.json())
-      .then((data) => {
-        setBusinessValues(data);
-      });
+    getBusinessInfo(businessId).then((res) => {
+      setBusinessValues(res.data);
+    });
   }, [businessId]);
 
   useEffect(() => {
-    fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/business/${businessId}/top_drinks`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.top_drinks);
-        setTopDrinks(data.top_drinks);
-      });
+    getTopDrinks(businessId).then((res) => {
+      setTopDrinks(res.data.top_drinks);
+    });
   }, [businessId]);
 
   const { address, name, overall_star, review_count, city, state } = {
@@ -52,7 +46,7 @@ export const BobaBusinessPage = () => {
         </Typography>
         <Typography variant="subtitle1" component="h2">
           <Box fontWeight="fontWeightMedium" display="inline">
-            {address} {city}, {state}:
+            {address} {city}, {state}:{" "}
           </Box>
           {overall_star} stars with {review_count}
         </Typography>

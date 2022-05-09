@@ -17,7 +17,6 @@ const drawerWidth = 200;
 export const Layout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname);
 
   const menuItems = [
     {
