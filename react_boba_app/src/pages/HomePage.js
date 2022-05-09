@@ -8,7 +8,7 @@ export function HomePage() {
   const [businessValues, setBusinessValues] = useState([]);
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_BACKEND_URL + `/business/home`)
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/business/home`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data.test);
