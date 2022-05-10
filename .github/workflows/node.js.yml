@@ -10,9 +10,9 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
-    runs-on: self-hosted
+  deploy:
+    name: deploy frontend to github pages
+    runs-on: ubuntu-18.04
 
     strategy:
       matrix:
