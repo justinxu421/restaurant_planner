@@ -75,7 +75,7 @@ def main() -> None:
     # TODO: in the future, make this less hacky with a cloud based implementation (PostgresSQL)
     # read from a copy of yelp_db into boba_data_db to initialize our data
 
-    conn = sqlite3.connect("yelp.db")
+    conn = sqlite3.connect("yelp.db", check_same_thread=False)
     c = conn.cursor()
     c.execute("ATTACH DATABASE 'boba_data.db' AS boba_db")
 
