@@ -2,16 +2,11 @@ requests==2.18.4
 pandas
 numpy
 geopy
-flask
-flask-sqlalchemy
 textblob
 tqdm
-ipywidgets
 spacy
 wordfreq
 python-dotenv
-Flask-Script==2.0.6
-flask-migrate==2.5.2
 alembic
 fastapi
 uvicorn[standard]
