@@ -3,7 +3,7 @@ import { Button, Container, TextField, Typography } from "@mui/material";
 import { BusinessCard } from "../Components/BusinessCard";
 import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
 import Masonry from "react-masonry-css";
-import { getHomeBusinesses, getSearchBusinesses } from "actions/api";
+import { getHomeBusinesses, getSearchBusinesses } from "../actions/api";
 
 export function HomePage() {
   const [businessValues, setBusinessValues] = useState([]);
@@ -44,11 +44,11 @@ export function HomePage() {
                   onClick={() =>
                     searchTerm
                       ? getSearchBusinesses(searchTerm).then((res) => {
-                          setBusinessValues(res.data.businesses);
-                        })
+                        setBusinessValues(res.data.businesses);
+                      })
                       : getHomeBusinesses.then((res) => {
-                          setBusinessValues(res.data.businesses);
-                        })
+                        setBusinessValues(res.data.businesses);
+                      })
                   }
                   type="submit"
                   color="primary"

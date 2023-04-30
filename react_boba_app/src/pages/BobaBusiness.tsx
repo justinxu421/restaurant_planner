@@ -1,8 +1,7 @@
-// @ts-nocheck
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { getBusinessInfo, getTopDrinks } from "actions/api";
+import { getBusinessInfo, getTopDrinks, BusinessInfo } from "../actions/api";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { TopDrinkAccordion } from "../Components/TopDrinkAccordion";
@@ -18,7 +17,7 @@ const theme = createTheme({
 
 export const BobaBusinessPage = () => {
   const { businessId } = useParams();
-  const [businessValues, setBusinessValues] = useState();
+  const [businessValues, setBusinessValues] = useState<BusinessInfo>({});
   const [topDrinks, setTopDrinks] = useState([]);
   const [expanded, setExpanded] = useState(false);
 

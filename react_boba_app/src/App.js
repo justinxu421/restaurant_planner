@@ -4,9 +4,9 @@ import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { BobaBusinessPage } from "./Pages/BobaBusiness";
 import { HomePage } from "./Pages/HomePage";
-import { About } from "Pages/About";
+import { About } from "./Pages/About";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Layout } from "Components/Layout";
+import { Layout } from "./Components/Layout";
 
 const theme = createTheme({
   typography: {
