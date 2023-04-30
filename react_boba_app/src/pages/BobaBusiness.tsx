@@ -22,15 +22,19 @@ export const BobaBusinessPage = () => {
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    getBusinessInfo(businessId).then((res) => {
-      setBusinessValues(res.data);
-    });
+    if (businessId) {
+      getBusinessInfo(businessId).then((res) => {
+        setBusinessValues(res.data);
+      });
+    }
   }, [businessId]);
 
   useEffect(() => {
-    getTopDrinks(businessId).then((res) => {
-      setTopDrinks(res.data.top_drinks);
-    });
+    if (businessId) {
+      getTopDrinks(businessId).then((res) => {
+        setTopDrinks(res.data.top_drinks);
+      });
+    }
   }, [businessId]);
 
   const { address, name, overall_star, review_count, city, state } = {
@@ -43,12 +47,12 @@ export const BobaBusinessPage = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           {name} Top Drinks
         </Typography>
-        <Typography variant="subtitle1" component="h2">
+        {address && city && state && overall_star && (<Typography variant="subtitle1" component="h2">
           <Box fontWeight="fontWeightMedium" display="inline">
             {address} {city}, {state}:{" "}
           </Box>
           {overall_star} stars with {review_count}
-        </Typography>
+        </Typography>)}
         <Typography variant="subtitle1" component="h2"></Typography>
         <br />
         {topDrinks.map((drink, i) => {

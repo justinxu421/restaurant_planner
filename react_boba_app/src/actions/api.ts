@@ -10,13 +10,13 @@ export const getSearchBusinesses = (searchTerm: string) =>
   );
 
 export interface BusinessInfo {
-  readonly business_id: string,
-  readonly name: string,
-  readonly address: string,
-  readonly city: string,
-  readonly state: string,
-  readonly overall_star: number,
-  readonly review_count: number
+  readonly business_id?: string,
+  readonly name?: string,
+  readonly address?: string,
+  readonly city?: string,
+  readonly state?: string,
+  readonly overall_star?: number,
+  readonly review_count?: number
 }
 
 export const getBusinessInfo = (businessId: string) =>
