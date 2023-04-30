@@ -4,7 +4,6 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import {
   createTheme,
-  IconButton,
   Typography,
   ThemeProvider,
   Rating,
